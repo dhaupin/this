@@ -56,11 +56,11 @@ The mess happens INSIDE `.this/`, not scattered across the project root.
 ├── scope.md         # WHAT - in/out of scope (REQUIRED)
 ├── chain.md         # WHERE - chain-load other .this (OPTIONAL)
 ├── bounds.md        # LIMITS - hard boundaries (OPTIONAL)
-└── [tool-name]/    # ANY tool-specific folders (OPTIONAL)
-    ├── .this/       # Can be nested .this for chaining
-    ├── config
-    ├── rules
-    └── ...
+└── [agent_name]/   # Agent-specific context (OPTIONAL)
+    ├── identity.md
+    ├── guidance.md
+    ├── scope.md
+    └── [any-files]  # Horcrux, configs, etc.
 ```
 
 ## The "Anything Goes" Layer
@@ -68,21 +68,22 @@ The mess happens INSIDE `.this/`, not scattered across the project root.
 Beyond the 3 core files, `.this` is a free-form container:
 
 ```
-.this/
-├── identity.md              # Core: who we are
-├── guidance.md             # Core: how to work
-├── scope.md               # Core: what's in/out
+.this/                          # Project root container
+├── identity.md                 # Project-level identity
+├── guidance.md                # Project-level guidance
+├── scope.md                   # Project-level scope
 │
-├── axolotl/               # Agent-specific context
-│   ├── brain.svg          # Vant horcrux
-│   └── .this/             # Nested .this (chained)
+├── axolotl/                   # Agent-specific context
+│   ├── identity.md            # Who this agent is
+│   ├── guidance.md            # How to work with this agent
+│   ├── scope.md               # What this agent does
+│   ├── brain.svg              # Vant horcrux
+│   └── .this/                 # Nested .this (chained)
 │
-├── cursorrules/           # Cursor rules
-├── clinerules/            # Cline rules
-├── memory-bank/           # Cline memory
-├── claude.md              # Claude Code
-├── vant/                  # Vant config
-└── [any-folder]/         # Whatever else emerges
+├── cursorrules/               # Cursor rules
+├── clinerules/                # Cline rules
+├── vant/                      # Vant config
+└── [any-folder]/             # Whatever else emerges
 ```
 
 **The only rule:** Contain the chaos inside `.this/`, not the project root.
