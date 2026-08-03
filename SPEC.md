@@ -1,5 +1,7 @@
 # .this Specification
 
+**Version**: 0.2.0 (Draft)
+
 ## Overview
 
 `.this` is a **universal project-context container** for AI agents and humans.
@@ -10,6 +12,17 @@ It provides a standardized place for:
 - WHAT is in scope / out of scope
 - WHERE to chain-load other contexts
 - **ANY tool/agent/runtime specific files**
+
+## Quick Start
+
+```bash
+mkdir .this
+echo "# Project Identity" > .this/identity.md
+echo "# How to work" > .this/guidance.md
+echo "# What's in scope" > .this/scope.md
+```
+
+That's it. 3 files = working `.this`.
 
 ## The Philosophy: Contain the Chaos
 
@@ -281,10 +294,171 @@ This is similar to:
 3. **Composable** - Multiple .this can be chained
 4. **Portable** - Works with any agent/runtime
 5. **Minimal** - Keep it small, reference externally if needed
+6. **Human-readable** - Markdown/text preferred over binary
+7. **Version-aware** - Include spec version in metadata
+
+## File Formats
+
+**.this prioritizes human readability:**
+
+- **Recommended**: Markdown (`.md`) for all core files
+- **Supported**: JSON, YAML for structured data
+- **Framework files**: Any format the framework requires (e.g., `.svg` for horcrux)
+
+Core files (`identity.md`, `guidance.md`, `scope.md`, `chain.md`, `bounds.md`) should be Markdown for interoperability.
+
+## Reserved Names
+
+**These folder names have special meaning:**
+
+| Folder | Purpose |
+|--------|---------|
+| `.this/` | The container itself |
+| `.this/.this/` | Nested chained context |
+
+**These filenames are reserved:**
+
+| File | Purpose |
+|------|---------|
+| `identity.md` | WHO - required core file |
+| `guidance.md` | HOW - required core file |
+| `scope.md` | WHAT - required core file |
+| `chain.md` | WHERE - optional chaining |
+| `bounds.md` | LIMITS - optional boundaries |
+
+All other names are free-form.
+
+## Size Recommendations
+
+**Keep `.this` lean:**
+
+- **Core files**: < 10KB each recommended
+- **Total .this folder**: < 1MB recommended
+- **Rationale**: Context is loaded into agent prompts; huge files = truncation
+
+For large data, use external references:
+```markdown
+See: ./docs/full-architecture.md
+```
+
+## Anti-Patterns
+
+**Don't:**
+
+1. **Duplicate everything** - `.this` should reference, not copy
+2. **Make it huge** - Agents have context limits
+3. **Hide critical info** - Public by default; use framework encryption for secrets
+4. **Ignore updates** - Keep `.this` current or it's worse than nothing
+5. **Nest too deep** - Depth > 3 becomes hard to follow
+
+**Do:**
+
+1. **Start small** - Even 3 files is better than none
+2. **Link externally** - Large docs belong in project, not `.this`
+3. **Be specific** - "Use FastAPI" > "Follow best practices"
+4. **Update regularly** - Stale context hurts more than no context
+
+## Adoption Guidance
+
+### Getting Started
+
+1. **Create `.this/` folder** in project root
+2. **Add `identity.md`** - Who's involved
+3. **Add `guidance.md`** - How to work together
+4. **Add `scope.md`** - What's in/out of scope
+5. **Optional: Add `chain.md`** - Link to other contexts
+
+### Minimal Example
+
+```
+.this/
+├── identity.md    # "We build a trading bot"
+├── guidance.md    # "Verify before commit"
+└── scope.md       # "Backend only"
+```
+
+### Growth Path
+
+```
+.this/
+├── identity.md         # Always
+├── guidance.md         # Always
+├── scope.md           # Always
+├── chain.md           # When linking contexts
+├── bounds.md          # When need hard limits
+├── axolotl/          # When agent context needed
+│   └── brain.svg     # Encrypted horcrux
+├── cursorrules/      # When using Cursor
+└── docs/             # When docs needed
+    └── architecture.md
+```
+
+## Framework Integration
+
+**For framework authors:**
+
+### Basic Implementation
+
+```javascript
+// Pseudocode for .this loader
+async function loadThis(projectPath) {
+    const thisPath = path.join(projectPath, '.this');
+    if (!fs.existsSync(thisPath)) return null;
+    
+    const context = {};
+    
+    // Load core files (Markdown)
+    for (const file of ['identity.md', 'guidance.md', 'scope.md']) {
+        const content = fs.readFileSync(path.join(thisPath, file), 'utf8');
+        if (content) context[file.replace('.md', '')] = content;
+    }
+    
+    // Load optional files
+    if (fs.existsSync(path.join(thisPath, 'chain.md'))) {
+        context.chain = await loadChain(fs.readFileSync(...));
+    }
+    
+    // Load subfolders as modules
+    context.modules = await loadModules(thisPath);
+    
+    return context;
+}
+```
+
+### Extended Implementation
+
+```javascript
+// With hierarchy and chaining
+async function loadThisHierarchy(projectPath) {
+    const contexts = [];
+    
+    // Walk from root to current directory
+    const parts = path.relative(projectRoot, projectPath).split(path.sep);
+    let currentPath = projectRoot;
+    
+    for (const part of parts) {
+        currentPath = path.join(currentPath, part);
+        const thisPath = path.join(currentPath, '.this');
+        
+        if (fs.existsSync(thisPath)) {
+            const ctx = await loadThis(thisPath);
+            contexts.push({ path: thisPath, context: ctx });
+        }
+    }
+    
+    // Merge with precedence (later = higher priority)
+    return mergeContexts(contexts);
+}
+```
 
 ## Version
 
-Current: 0.1.0 (Draft)
+Current: 0.2.0 (Draft)
+
+### Changelog
+
+- **0.2.0**: Added hierarchy, adoption guidance, anti-patterns
+- **0.1.0**: Initial spec with core philosophy
 
 ## Collision Considerations
 
