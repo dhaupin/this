@@ -185,6 +185,14 @@ The `chain.md` file allows pulling context from other `.this` folders:
 
 Current: 0.1.0 (Draft)
 
+## Collision Considerations
+
+This specification uses the folder name `.this` in good faith.
+
+If conflicts arise with established projects or trademarks, we will work in good faith to resolve them.
+
+See [LEGAL.md](./LEGAL.md) for full disclaimer.
+
 ---
 
 *This spec is agent-agnostic. Implementations may vary.*
