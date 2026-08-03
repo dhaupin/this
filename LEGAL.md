@@ -4,6 +4,8 @@
 
 **.this** is an open, community-driven specification.
 
+**The .this folder and its contents are public by default.**
+
 We make no claims to:
 - Being the first or only solution
 - Owning the concept of project-context folders

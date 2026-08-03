@@ -46,6 +46,42 @@ The mess happens INSIDE `.this/`, not scattered across the project root.
 4. **Agent-agnostic** - Readable by any system
 5. **Multi-tenant** - Supports multiple humans
 6. **Contain the mess** - Chaos goes INSIDE .this, not everywhere
+7. **Public by default** - Anyone can read .this contents
+8. **Framework responsibility** - Encryption/access control handled by frameworks
+
+## Public vs Private
+
+**.this is public by default.**
+
+The folder and its contents are designed to be readable by:
+- Any agent
+- Any framework
+- Any human
+
+**Sensitive data is the framework's responsibility.**
+
+Frameworks can handle sensitive data in whatever way they choose:
+- Encrypted blobs (e.g., Vant horcrux files)
+- Separate encrypted folders
+- Access control mechanisms
+
+Example:
+```
+.this/
+├── identity.md         # PUBLIC - readable by everyone
+├── guidance.md        # PUBLIC - readable by everyone
+├── scope.md           # PUBLIC - readable by everyone
+├── axolotl/           # Agent-specific (can be encrypted)
+│   ├── identity.md    # Who this agent is
+│   └── brain.svg      # ENCRYPTED horcrux - framework handles decryption
+├── sensitive/        # Framework-specific encrypted data
+└── cursorrules/      # PUBLIC - tool-specific rules
+```
+
+**The contract:**
+- `.this` provides a standardized location
+- Frameworks decide how to handle sensitive data
+- Users can put public stuff in `.this` with confidence
 
 ## Folder Structure
 
@@ -69,24 +105,26 @@ Beyond the 3 core files, `.this` is a free-form container:
 
 ```
 .this/                          # Project root container
-├── identity.md                 # Project-level identity
-├── guidance.md                # Project-level guidance
-├── scope.md                   # Project-level scope
+├── identity.md                 # Project-level identity (PUBLIC)
+├── guidance.md                # Project-level guidance (PUBLIC)
+├── scope.md                   # Project-level scope (PUBLIC)
 │
 ├── axolotl/                   # Agent-specific context
-│   ├── identity.md            # Who this agent is
-│   ├── guidance.md            # How to work with this agent
-│   ├── scope.md               # What this agent does
-│   ├── brain.svg              # Vant horcrux
+│   ├── identity.md            # Who this agent is (PUBLIC)
+│   ├── guidance.md            # How to work with this agent (PUBLIC)
+│   ├── scope.md               # What this agent does (PUBLIC)
+│   ├── brain.svg              # Vant horcrux (ENCRYPTED - framework handles)
 │   └── .this/                 # Nested .this (chained)
 │
-├── cursorrules/               # Cursor rules
-├── clinerules/                # Cline rules
-├── vant/                      # Vant config
+├── cursorrules/               # Cursor rules (PUBLIC)
+├── clinerules/                # Cline rules (PUBLIC)
+├── vant/                      # Vant config (PUBLIC or ENCRYPTED)
 └── [any-folder]/             # Whatever else emerges
 ```
 
 **The only rule:** Contain the chaos inside `.this/`, not the project root.
+
+**Note:** Contents are public unless the framework explicitly encrypts them.
 
 ## File Specifications
 
