@@ -1,15 +1,15 @@
-# Scope
+# .this Scope
 
 ## In
-- Regarded frontend (Vite/React, shadcn/ui)
-- Building and verifying code
-- Documentation
+- SPEC.md - Core specification
+- .this/ folder - Example (the repo IS the example)
+- Future: tooling, validators, docs
 
 ## Out
-- Infrastructure changes
-- Production deployments (without approval)
-- Other projects not mentioned
+- Tool-specific implementations (those belong in their own folders under .this/)
+- Complex tooling (keep it minimal)
 
 ## Current Focus
-- Frontend component work
-- Maintaining clean builds
+- Refine the spec
+- Make it truly agent-agnostic
+- Let others discover and use it

@@ -1,16 +1,15 @@
-# Guidance
+# .this Guidance
 
-## How to work with Axolotl
+## How to work on .this
 
-## Communication
-- Be direct and clear
-- Notes prefixed with [note] are non-blocking context
+## Philosophy
+- Minimal defaults (3 required files)
+- Opt-in (if it doesn't exist, nothing breaks)
+- Contain the chaos (mess goes INSIDE .this/, not everywhere)
+- Agent-agnostic (not tied to any tool)
 
-## Style
-- Minimal changes
-- Verify builds
-- Clean code over clever code
-
-## When uncertain
-- Ask before proceeding
-- It's okay to say "I don't know"
+## Contribution
+- Keep spec simple
+- Accept all formats
+- Don't be opinionated about tools
+- Focus on container concept
