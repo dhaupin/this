@@ -211,6 +211,69 @@ The `chain.md` file allows pulling context from other `.this` folders:
 - Absolute paths: `~/my-context/.this/`
 - URLs: `https://example.com/context/.this/` (future)
 
+## Hierarchy: Root vs Subfolder
+
+`.this` can exist at project root AND in subfolders. This creates a **hierarchy of context**.
+
+### The Rule: Layered Extension
+
+By default:
+- **Root `.this/`** provides the BASE context
+- **Subfolder `.this/`** EXTENDS the base context
+- More specific contexts ADD to general ones
+
+Example:
+```
+project/
+├── .this/                      # BASE LAYER
+│   ├── identity.md            # Project identity
+│   ├── guidance.md            # "Follow coding standards"
+│   └── scope.md               # "Frontend only"
+│
+├── backend/
+│   └── .this/                 # ADDS TO base
+│       ├── guidance.md        # "Backend uses Python"
+│       └── scope.md           # "API endpoints only"
+│
+├── frontend/
+│   └── .this/                 # ALSO adds to base
+│       ├── guidance.md        # "Frontend uses React"
+│       └── scope.md           # "Components only"
+│
+└── agents/
+    └── .this/                 # Agent-specific additions
+        └── guidance.md        # "Use Vant for memory"
+```
+
+### Override Behavior
+
+To explicitly OVERRIDE (not extend) a parent value, add a header:
+
+```markdown
+---
+override: true
+---
+
+# Backend Guidance
+
+## Workflow
+- Use FastAPI
+- All endpoints must have type hints
+```
+
+### Precedence
+
+When loading context, frameworks should apply:
+
+1. **Root `.this/`** - Base layer (loaded first)
+2. **Subfolder `.this/`** - Extends base (loaded after)
+3. **More specific paths** - Override when marked
+
+This is similar to:
+- CSS specificity (more specific selectors win)
+- Environment variables (local overrides global)
+- Vant islands (extends brain)
+
 ## Principles
 
 1. **Opt-in** - No .this folder = no context loaded
